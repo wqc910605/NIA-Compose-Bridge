@@ -13,29 +13,32 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.EmptyAndroid"
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.EmptyAndroid">
+            android:name=".weather.binding.WeatherBindingActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Demo：演示 core:base + core:viewbinding 框架用法 -->
+        <!-- Weather Demo：ViewBinding 版 -->
+<!--        <activity-->
+<!--            android:name=".weather.binding.WeatherBindingActivity"-->
+<!--            android:exported="false"-->
+<!--            android:theme="@style/Theme.EmptyAndroid" />-->
+
+        <!-- Weather Demo：Compose 版（完全相同的功能，只换 UI 层） -->
         <activity
-            android:name=".demo.TaskListActivity"
+            android:name=".weather.compose.WeatherComposeActivity"
             android:exported="false"
             android:theme="@style/Theme.EmptyAndroid" />
 
-        <!-- Demo：完整多类型 Adapter + MVI State/Effect 示例 -->
-        <activity
-            android:name=".demo.ProductCatalogActivity"
-            android:exported="false"
-            android:theme="@style/Theme.EmptyAndroid" />
+        <!-- Weather Detail：已改为 Fragment destination，
+             由 weather_nav_graph.xml 的 Navigation Component 管理，
+             不再需要独立 Activity 注册 -->
     </application>
 
 </manifest>

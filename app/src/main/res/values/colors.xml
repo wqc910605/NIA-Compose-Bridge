@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="nav_item_selected">#E6C8A0</color> <!-- 浅黄色，或改成你想要的色值 -->
+    <color name="nav_item_default">#757575</color> <!-- 默认的灰色 -->
+</resources>

@@ -53,9 +53,11 @@ dependencies {
     // Feature impl 模块（真正的 UI + ViewModel）
     implementation(projects.feature.home.impl)
     implementation(projects.feature.settings.impl)
+    implementation(projects.feature.weather.impl)
     // Feature api 模块（app 直接用到路由 key / 跳转函数时依赖）
     implementation(projects.feature.home.api)
     implementation(projects.feature.settings.api)
+    implementation(projects.feature.weather.api)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
@@ -76,8 +78,10 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.fragment.ktx)
     implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.compose.material.iconsExtended)
 }

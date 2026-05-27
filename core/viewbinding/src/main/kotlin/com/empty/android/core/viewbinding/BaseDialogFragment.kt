@@ -1,10 +1,9 @@
 package com.empty.android.core.viewbinding
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -66,14 +65,14 @@ import timber.log.Timber
  * }
  * ```
  */
-abstract class BaseDialogFragment : DialogFragment() {
+abstract class BaseDialogFragment(@LayoutRes contentLayoutId: Int) : DialogFragment(contentLayoutId) {
 
     // ── Binding（基类管控生命周期）──────────────────────────────────────────
 
     /**
      * 子类实现: 创建 ViewBinding。
      */
-    protected abstract val mBinding: ViewBinding
+    protected abstract val binding: ViewBinding
 
     // ── 子类必须提供 ────────────────────────────────────────────────────────
 
@@ -94,16 +93,6 @@ abstract class BaseDialogFragment : DialogFragment() {
      */
     protected var previousState: UiState? = null
         private set
-
-    // ── Lifecycle ───────────────────────────────────────────────────────────
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        return mBinding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

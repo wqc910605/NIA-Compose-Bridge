@@ -7,6 +7,7 @@ import com.empty.android.feature.home.api.HomeRoute
 import com.empty.android.feature.home.impl.navigation.homeScreen
 import com.empty.android.feature.settings.api.navigateToSettings
 import com.empty.android.feature.settings.impl.navigation.settingsScreen
+import com.empty.android.feature.weather.impl.navigation.weatherDetailScreen
 
 /**
  * App 级导航图：
@@ -23,6 +24,9 @@ fun AppNavHost() {
             onNavigateToSettings = { navController.navigateToSettings() },
         )
         settingsScreen(
+            onBack = { navController.popBackStack() },
+        )
+        weatherDetailScreen(
             onBack = { navController.popBackStack() },
         )
     }

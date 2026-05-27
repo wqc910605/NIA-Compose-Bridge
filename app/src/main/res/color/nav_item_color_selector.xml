@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 当item被选中时，使用浅黄色 -->
+    <item android:color="@color/nav_item_selected" android:state_checked="true" />
+    <!-- 当item未选中时，使用默认灰色 -->
+    <item android:color="@color/nav_item_default" />
+</selector>

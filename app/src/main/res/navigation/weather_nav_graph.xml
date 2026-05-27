@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/weather_nav_graph"
+    app:startDestination="@id/nav_today">
+
+    <!--
+        Tab 目的地 —— id 必须和 menu/weather_bottom_nav.xml 的 item id 一致，
+        这样 NavigationUI.setupWithNavController() 才能自动联动。
+    -->
+    <fragment
+        android:id="@+id/nav_today"
+        android:name="com.empty.android.app.weather.binding.WeatherTodayFragment"
+        android:label="今日天气" />
+
+    <fragment
+        android:id="@+id/nav_forecast"
+        android:name="com.empty.android.app.weather.binding.WeatherForecastFragment"
+        android:label="未来预报" />
+
+    <fragment
+        android:id="@+id/nav_cities"
+        android:name="com.empty.android.app.weather.binding.WeatherCitiesFragment"
+        android:label="城市管理" />
+
+    <!-- 天气详情页 —— Fragment destination，接收 cityName + date 参数 -->
+    <fragment
+        android:id="@+id/nav_weather_detail"
+        android:name="com.empty.android.feature.weather.impl.viewbinding.WeatherDetailFragment"
+        android:label="天气详情">
+        <argument
+            android:name="cityName"
+            app:argType="string" />
+        <argument
+            android:name="date"
+            app:argType="string"
+            android:defaultValue="" />
+    </fragment>
+
+</navigation>

@@ -14,7 +14,7 @@ import androidx.viewbinding.ViewBinding
  * @param binding 布局绑定实例
  */
 open class VBViewHolder<VB : ViewBinding>(
-    val binding: VB,
+    open val binding: VB,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     /** 便捷访问 root view。 */

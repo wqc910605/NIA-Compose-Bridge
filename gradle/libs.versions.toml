@@ -151,6 +151,7 @@ fragment = { module = "androidx.fragment:fragment", version.ref = "fragment" }
 fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
 # navigation-fragment-ktx 对齐 androidxNavigation 版本
 navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidxNavigation" }
+navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidxNavigation" }
 google-material = { module = "com.google.android.material:material", version.ref = "material" }
 preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
 # lifecycle-process 对齐 androidxLifecycle 版本

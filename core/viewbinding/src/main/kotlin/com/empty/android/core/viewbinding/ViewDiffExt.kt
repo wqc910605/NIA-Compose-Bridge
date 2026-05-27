@@ -102,4 +102,4 @@ fun View.clearDiffCache(tagKey: Int = DEFAULT_TAG_KEY) {
  * </resources>
  * ```
  */
-const val DEFAULT_TAG_KEY: Int = android.R.id.text1
+val DEFAULT_TAG_KEY: Int = R.id.default_tag

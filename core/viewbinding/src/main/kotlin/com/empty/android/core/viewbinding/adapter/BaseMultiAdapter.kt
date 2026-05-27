@@ -13,11 +13,6 @@ import androidx.viewbinding.ViewBinding
  * ## 设计理念
  * 每个 itemViewType 通过 [ItemViewBinder] 绑定到特定的 [ViewBinding] 布局，
  * 由 [VBViewHolder] 持有该绑定对象。数据绑定逻辑封装在 [ItemViewBinder.onBind] 中。
- *
- * ## 与旧版对比
- * 旧版使用 [OnMultiItemAdapterListener] 接口 + `setTag` 回调模式；新版统一为
- * `ItemViewBinder<T, VB>`，在类型层面建立 "itemType → ViewBinding → ViewHolder" 关系。
- *
  * ## 用法
  *
  * ### 方式一：ItemViewBinder（推荐，复杂逻辑）
@@ -50,12 +45,12 @@ import androidx.viewbinding.ViewBinding
  *
  * ### 方式二：Lambda（简单场景）
  * ```kotlin
- * adapter.addItemType(TYPE_TEXT, ItemTextBinding::inflate) { binding, _, item, _ ->
+ * adapter.addItemTypeExt(TYPE_TEXT, ItemTextBinding::inflate) { binding, _, item, _ ->
  *     binding.tvContent.text = (item as? ChatMessage.Text)?.content
  * }
  *
  * // 或更简：
- * adapter.addItemType(TYPE_HEADER, ItemHeaderBinding::inflate) { msg ->
+ * adapter.addItemTypeExt(TYPE_HEADER, ItemHeaderBinding::inflate) { msg ->
  *     tvTitle.text = (msg as? HeaderMsg)?.title
  * }
  * ```
@@ -190,7 +185,7 @@ abstract class BaseMultiAdapter<T : Any> @JvmOverloads constructor(
  * 直接传入 [ItemViewBinder.onBind] 签名的 lambda，无需创建 ItemViewBinder 子类。
  *
  * ```kotlin
- * adapter.addItemType(TYPE_TEXT, ItemTextBinding::inflate) { holder, pos, item, payloads ->
+ * adapter.addItemTypeExt(TYPE_TEXT, ItemTextBinding::inflate) { holder, pos, item, payloads ->
  *     holder.binding.tvContent.text = (item as? ChatMessage.Text)?.content
  * }
  * ```
@@ -223,7 +218,7 @@ fun <T: Any, VB : ViewBinding> BaseMultiAdapter<T>.addItemTypeExt(
  * 以 binding 为接收者，适合只需绑定数据、不关心 position/payloads 的场景。
  *
  * ```kotlin
- * adapter.addItemType(TYPE_HEADER, ItemHeaderBinding::inflate) { msg ->
+ * adapter.addItemTypeExt(TYPE_HEADER, ItemHeaderBinding::inflate) { msg ->
  *     tvTitle.text = (msg as? HeaderMsg)?.title
  * }
  * ```

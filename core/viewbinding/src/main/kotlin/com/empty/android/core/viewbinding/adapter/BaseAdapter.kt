@@ -140,7 +140,7 @@ abstract class BaseAdapter<T : Any, VH : RecyclerView.ViewHolder>
 
     protected abstract fun onBindViewHolder(holder: VH, position: Int, item: T?)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return onCreateViewHolderVH(parent, viewType).apply { bindViewClickListener(this) }
     }
 
