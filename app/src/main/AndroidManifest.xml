@@ -39,6 +39,12 @@
         <!-- Weather Detail：已改为 Fragment destination，
              由 weather_nav_graph.xml 的 Navigation Component 管理，
              不再需要独立 Activity 注册 -->
+
+        <!-- MultiType Demo：演示 BaseMultiAdapter 多条目类型 -->
+        <activity
+            android:name=".demo.MultiTypeDemoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.EmptyAndroid" />
     </application>
 
 </manifest>

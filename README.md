@@ -2,7 +2,7 @@
 
 一个模仿 [Now in Android](https://github.com/android/nowinandroid) 架构搭建的、开箱即用的 Android 项目模板。
 
-核心定位是 **"双 UI 技术栈桥接"**：同一套 MVI 数据层之上，同时示范 **Jetpack Compose** 和 **XML ViewBinding + MVI** 两种 UI 方案。你可以在同一个 App 中混用两者，也可以选择其中一种长期发展。
+核心定位是 **"双 UI 技术栈桥接"**：同一套数据层之上，同时示范 **Jetpack Compose** 和 **XML ViewBinding** 两种 UI 方案。你可以在同一个 App 中混用两者，也可以选择其中一种长期发展。
 
 项目只包含基础通用模块和 demo 代码，不包含具体业务，你可以直接在这个框架上开发你自己的应用。
 
@@ -10,7 +10,7 @@
 
 ## 技术栈
 
-- **100% Kotlin** + Jetpack Compose（Material 3）+ XML ViewBinding + MVI
+- **100% Kotlin** + Jetpack Compose（Material 3）+ XML ViewBinding
 - **Kotlin 2.3.20** + **AGP 9.1.1** + **Gradle 9.4.0** + JDK 17
 - **KSP2 2.3.6**（替代 KSP1，AGP 9 起必需）
 - **Hilt 2.59.2**（已原生支持 AGP 9）
@@ -35,7 +35,7 @@ NIA-Compose-Bridge/
 │       ├── navigation/AppNavHost.kt        # Navigation Compose 导航图
 │       ├── EmptyAndroidApplication.kt      # @HiltAndroidApp
 │       └── demo/
-│           ├── ProductCatalogActivity.kt   # ViewBinding + MVI Demo
+│           ├── ProductCatalogActivity.kt   # ViewBinding Demo
 │           ├── ProductCatalogUiState.kt    # UiState / UiEffect 定义
 │           ├── ProductCatalogViewModel.kt  # BaseViewModel 子类 Demo
 │           ├── ProductDetailFragment.kt    # Fragment + viewBinding() 委托
@@ -59,17 +59,17 @@ NIA-Compose-Bridge/
 │       └── JvmLibraryConventionPlugin.kt
 │
 ├── core/                                   # 核心基础层（10 个子模块）
-│   ├── base/                               # MVI 基础框架
+│   ├── base/                               # ViewModel 基础框架
 │   │   └── .../mvi/
 │   │       ├── BaseContracts.kt            # UiState / UiEffect 接口
-│   │       ├── BaseViewModel.kt            # MVI ViewModel 基类
+│   │       ├── BaseViewModel.kt            # ViewModel 基类
 │   │       └── FlowExt.kt                  # 生命周期感知 Flow 收集
 │   │
-│   ├── viewbinding/                        # ViewBinding + MVI 组件
+│   ├── viewbinding/                        # ViewBinding 基类组件
 │   │   └── .../viewbinding/
-│   │       ├── BaseActivity.kt             # MVI Activity 基类
-│   │       ├── BaseFragment.kt             # MVI Fragment 基类
-│   │       ├── BaseDialogFragment.kt       # MVI DialogFragment 基类
+│   │       ├── BaseActivity.kt             # Activity 基类
+│   │       ├── BaseFragment.kt             # Fragment 基类
+│   │       ├── BaseDialogFragment.kt       # DialogFragment 基类
 │   │       ├── FragmentViewBinding.kt      # ViewBinding 属性委托
 │   │       ├── ViewDiffExt.kt              # diffUpdate 局部刷新
 │   │       └── adapter/
@@ -148,19 +148,19 @@ NIA-Compose-Bridge/
 
 ### 核心理念：Compose ↔ ViewBinding 桥接
 
-本项目名称中的 "Bridge" 指 **同一套 MVI 数据层之上，桥接两种 UI 范式**：
+本项目名称中的 "Bridge" 指 **同一套数据层之上，桥接两种 UI 范式**：
 
 ```
 ┌──────────────────────────────────────────────────┐
 │                     UI Layer                      │
 │  ┌──────────────┐         ┌────────────────────┐  │
-│  │   Compose     │         │  ViewBinding + MVI │  │
+│  │   Compose     │         │  ViewBinding      │  │
 │  │  HomeScreen   │         │  ProductCatalog    │  │
 │  │  SettingsScreen│         │  Activity/Fragment │  │
 │  └──────┬───────┘         └─────────┬──────────┘  │
 │         │                           │             │
 ├─────────┼───────────────────────────┼─────────────┤
-│  Shared MVI Core                    │             │
+│  Shared ViewModel Core              │             │
 │  ┌──────┴───────────────────────────┴──────────┐  │
 │  │  BaseViewModel<UiState>                     │  │
 │  │  StateFlow<UiState> + Channel<UiEffect>     │  │
@@ -183,7 +183,7 @@ NIA-Compose-Bridge/
 
 ---
 
-### MVI 架构详解
+### ViewModel 架构
 
 #### 1. BaseViewModel（`core:base`）
 
@@ -233,7 +233,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 }
 ```
 
-**ViewBinding + MVI 方式：**
+**ViewBinding 方式：**
 ```kotlin
 @AndroidEntryPoint
 class ProductCatalogActivity : BaseActivity() {
@@ -267,9 +267,9 @@ class ProductCatalogActivity : BaseActivity() {
 
 | 组件 | 说明 |
 |------|------|
-| `BaseActivity` | MVI Activity 基类，自动订阅 State/Effect，提供 `render()` / `handleEffect()` 模板方法 |
-| `BaseFragment` | MVI Fragment 基类，以 `viewLifecycleOwner` 为宿主，支持 `currentState` / `previousState` |
-| `BaseDialogFragment` | MVI DialogFragment 基类，同上模式 |
+| `BaseActivity` | Activity 基类，自动订阅 State/Effect，提供 `render()` / `handleEffect()` 模板方法 |
+| `BaseFragment` | Fragment 基类，以 `viewLifecycleOwner` 为宿主，支持 `currentState` / `previousState` |
+| `BaseDialogFragment` | DialogFragment 基类，同上模式 |
 | `Fragment.viewBinding()` | ViewBinding 属性委托，自动在 `onDestroyView` 时置 null，防内存泄漏 |
 | `View.diffUpdate()` | 值不变则跳过 `setText` 等操作，避免无效重绘 |
 | `View.diffUpdateNullable()` | 带可见性控制的 diff 更新（null 时自动 GONE） |
@@ -431,7 +431,7 @@ class ProductAdapter(...) : BaseMultiAdapter<ProductDisplayItem>(...) {
 | 路径 | 基类 | 适用场景 |
 |------|------|----------|
 | **Compose** | 标准 `ViewModel` + `collectAsStateWithLifecycle()` | 新页面首选，复杂动画、声明式 UI |
-| **ViewBinding + MVI** | `BaseActivity` / `BaseFragment` | 已有 XML 页面、混合迁移、RecyclerView 多类型列表 |
+| **ViewBinding** | `BaseActivity` / `BaseFragment` | 已有 XML 页面、混合迁移、RecyclerView 多类型列表 |
 | **混合** | 两者共存 | 渐进式迁移：Compose 新页面 + 旧页面保持 XML |
 
 ### 2. 新增 Compose Feature 模块
@@ -479,7 +479,7 @@ class ProductAdapter(...) : BaseMultiAdapter<ProductDisplayItem>(...) {
 6. 在 `impl` 中编写 Screen、ViewModel、NavGraphBuilder 扩展（参考 `feature/home/impl`）；
 7. 在 `app/build.gradle.kts` 加 `implementation(projects.feature.yourfeature.impl)`，并在 `AppNavHost.kt` 注册路由。
 
-### 3. 新增 ViewBinding + MVI 页面
+### 3. 新增 ViewBinding 页面
 
 如果你更偏向 XML + ViewBinding 方案：
 

@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.dependencies
  * feature:*:impl 模块的 convention plugin。
  *
  * 职责：承载 Screen / ViewModel / Hilt DI / 导航注册函数（[androidx.navigation.NavGraphBuilder] 扩展）。
- * 预置依赖：Compose + Hilt + Navigation + kotlinx.serialization + 核心 core 层 + core:mvi。
+ * 预置依赖：Compose + Hilt + Navigation + kotlinx.serialization + 核心 core 层 + core:base。
  *
  * 跨 feature 跳转：`impl` 只通过依赖目标 feature 的 `:api` 来获取路由 key，不能反向依赖其他 `impl`。
  */

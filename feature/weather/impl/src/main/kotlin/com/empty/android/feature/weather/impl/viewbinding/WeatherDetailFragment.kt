@@ -81,7 +81,7 @@ class WeatherDetailFragment : BaseFragment(R.layout.activity_weather_detail) {
         viewModel.loadDetail(cityName, date)
     }
 
-    // ── MVI 模板方法 ────────────────────────────────────────────────────────
+    // ── Render / Effect ─────────────────────────────────────────────────────
 
     override fun render(state: UiState) {
         when (val s = state) {

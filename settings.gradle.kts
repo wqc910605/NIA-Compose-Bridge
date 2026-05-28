@@ -1,18 +1,26 @@
 pluginManagement {
     includeBuild("build-logic")
     repositories {
-        maven {
-            url = uri("https://maven.aliyun.com/repository/google")
+//        maven {
+//            url = uri("https://maven.aliyun.com/repository/google")
+//            content {
+//                includeGroupByRegex("com\\.android.*")
+//                includeGroupByRegex("com\\.google.*")
+//                includeGroupByRegex("androidx.*")
+//            }
+//        }
+//
+//        // 2) Maven Central → 阿里云镜像
+//        maven {
+//            url = uri("https://maven.aliyun.com/repository/central")
+//        }
+
+        google {
             content {
                 includeGroupByRegex("com\\.android.*")
                 includeGroupByRegex("com\\.google.*")
                 includeGroupByRegex("androidx.*")
             }
-        }
-
-        // 2) Maven Central → 阿里云镜像
-        maven {
-            url = uri("https://maven.aliyun.com/repository/central")
         }
 
         // —— 下面两个是兜底，别删 —— //
@@ -26,18 +34,18 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        maven {
-            url = uri("https://maven.aliyun.com/repository/google")
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
-        // 2) Maven Central → 阿里云镜像
-        maven {
-            url = uri("https://maven.aliyun.com/repository/central")
-        }
+//        maven {
+//            url = uri("https://maven.aliyun.com/repository/google")
+//            content {
+//                includeGroupByRegex("com\\.android.*")
+//                includeGroupByRegex("com\\.google.*")
+//                includeGroupByRegex("androidx.*")
+//            }
+//        }
+//        // 2) Maven Central → 阿里云镜像
+//        maven {
+//            url = uri("https://maven.aliyun.com/repository/central")
+//        }
         // —— 下面两个是兜底，别删 —— //
         google()                // 官方 Google 仓库兜底
         mavenCentral()          // 官方 Maven Central 兜底

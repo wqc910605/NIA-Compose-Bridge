@@ -6,38 +6,10 @@ import timber.log.Timber
 /**
  * View diff 更新工具。
  *
- * ## 背景
- * 在 XML + ViewBinding 的 MVI 架构中，每次 State 变化都会触发 `render()` 刷新。
- * 若 View 已绑定相同的值，重复 `setText`/`setImageResource` 仍会触发测量/布局，
- * 产生不必要的 UI 开销。
+ * 每次 State 变化触发 `render()` 时，通过 [View.setTag] 缓存上次绑定的值，
+ * 新旧值相同时跳过更新，避免不必要的布局开销。
  *
- * 本工具通过 [View.setTag] / [View.getTag] 将"上一次绑定的值"存储在 View 自身，
- * 只有当新值与旧值不同时才真正调用 [bind] 执行更新。
- *
- * ## 用法
- * ```kotlin
- * // 基础：为单个 View 做 diff
- * tvTitle.diffUpdate(state.title) { text = it }
- * ivAvatar.diffUpdate(state.avatarUrl) { load(it) }
- * btnSubmit.diffUpdate(state.isEnabled) { isEnabled = it }
- *
- * // 带自定义 tag key（同一 View 绑定多个字段时使用）
- * container.diffUpdate(state.count, tagKey = R.id.tag_count) { tvCount.text = it.toString() }
- * container.diffUpdate(state.name,  tagKey = R.id.tag_name)  { tvName.text = it }
- *
- * // 首次强制更新（不管旧值是否相同）
- * tvTitle.diffUpdate(state.title, forceUpdate = true) { text = it }
- * ```
- *
- * ## Tag key 选择
- * - 默认使用 [View.getId] 对应的 key slot（`View.NO_ID` 时退化为 [DEFAULT_TAG_KEY]）。
- * - 同一个 View 需绑定多个独立字段时，必须为每个字段传入不同的 [tagKey]（定义在 `ids.xml`）。
- *
- * @param T      绑定值类型，必须正确实现 [equals]（data class / 基础类型均可）
- * @param value  当前要绑定的新值
- * @param tagKey 用于存储旧值的 tag key；默认值为 [DEFAULT_TAG_KEY]
- * @param forceUpdate 为 `true` 时跳过 diff，强制执行 [bind]
- * @param bind   实际更新 UI 的 lambda，接收新值 [T]
+ * 同一 View 需绑定多个字段时，各字段应使用不同的 [tagKey]。
  */
 fun <V: View, T> V.diffUpdate(
     value: T,

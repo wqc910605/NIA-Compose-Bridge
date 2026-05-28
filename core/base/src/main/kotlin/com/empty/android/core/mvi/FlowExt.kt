@@ -12,13 +12,6 @@ import kotlinx.coroutines.launch
  * 生命周期感知的 Flow 收集扩展。
  *
  * 在 [Lifecycle.State.STARTED] 时收集，页面退到后台后自动暂停，回到前台继续。
- * 适合收集 [BaseViewModel.uiState]（状态）。
- *
- * 用法：
- * ```kotlin
- * // Fragment.onViewCreated
- * collectFlow(viewModel.uiState) { state -> render(state) }
- * ```
  */
 fun <T> LifecycleOwner.collectFlow(
     flow: Flow<T>,
@@ -34,16 +27,6 @@ fun <T> LifecycleOwner.collectFlow(
 
 /**
  * [Fragment] 专用扩展，默认以 [viewLifecycleOwner] 作为生命周期宿主。
- *
- * 用法：
- * ```kotlin
- * collectFlow(viewModel.uiEffect) { effect ->
- *     when (effect) {
- *         is HomeEffect.NavigateTo -> findNavController().navigate(effect.dest)
- *         is HomeEffect.ShowToast  -> toast(effect.msg)
- *     }
- * }
- * ```
  */
 fun <T> Fragment.collectFlow(
     flow: Flow<T>,

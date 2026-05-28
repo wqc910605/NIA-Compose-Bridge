@@ -46,7 +46,7 @@ dependencies {
     implementation(projects.core.database)
     implementation(projects.core.network)
 
-    // core:base + core:viewbinding 框架（MVI + ViewBinding）
+    // core:base + core:viewbinding 框架（ViewModel + ViewBinding）
     implementation(projects.core.base)
     implementation(projects.core.viewbinding)
 
