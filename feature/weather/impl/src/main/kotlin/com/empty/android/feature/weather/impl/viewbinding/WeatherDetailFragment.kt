@@ -5,6 +5,8 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.empty.android.core.domain.CurrentWeatherDomain
+import com.empty.android.core.domain.ForecastDayDomain
 import com.empty.android.core.mvi.UiEffect
 import com.empty.android.core.mvi.UiState
 import com.empty.android.core.viewbinding.BaseFragment
@@ -84,46 +86,8 @@ class WeatherDetailFragment : BaseFragment(R.layout.activity_weather_detail) {
     // ── Render / Effect ─────────────────────────────────────────────────────
 
     override fun render(state: UiState) {
-        when (val s = state) {
-            is WeatherDetailUiState.Loading -> {
-                binding.progressBar.visibility = View.VISIBLE
-                binding.errorView.visibility = View.GONE
-                binding.contentView.visibility = View.GONE
-            }
-            is WeatherDetailUiState.Error -> {
-                binding.progressBar.visibility = View.GONE
-                binding.contentView.visibility = View.GONE
-                binding.errorView.visibility = View.VISIBLE
-                binding.tvError.diffUpdate(s.message) { text = it }
-            }
-            is WeatherDetailUiState.Success -> {
-                binding.progressBar.visibility = View.GONE
-                binding.errorView.visibility = View.GONE
-                binding.contentView.visibility = View.VISIBLE
-
-                val w = s.currentWeather
-                // 天气概要
-                binding.tvWeatherIcon.diffUpdate(w.condition.icon) { text = it }
-                binding.tvTemperature.diffUpdate(w.temperature) { text = "${it}°" }
-                binding.tvCondition.diffUpdate(w.condition.label) { text = it }
-                binding.tvHighLow.diffUpdate("↑${w.highTemp}° / ↓${w.lowTemp}°") { text = it }
-
-                // 详细指标
-                binding.tvFeelsLike.diffUpdate(w.feelsLike) { text = "${it}°" }
-                binding.tvHumidity.diffUpdate(w.humidity) { text = "$it%" }
-                binding.tvWind.diffUpdate(w.windSpeed) { text = "${it}km/h ${w.windDirection}" }
-                binding.tvVisibility.diffUpdate(w.visibility) { text = "${it}km" }
-                binding.tvUvIndex.diffUpdate(w.uvIndex) { text = "$it" }
-                binding.tvPressure.diffUpdate(w.pressure) { text = "${it}hPa" }
-                binding.tvSunrise.diffUpdate(w.sunrise) { text = "日出 ${it}" }
-                binding.tvSunset.diffUpdate(w.sunset) { text = "日落 ${it}" }
-                binding.tvAirQuality.diffUpdate(w.airQuality) {
-                    text = "AQI $it · ${w.airQualityLabel}"
-                }
-
-                // 预报列表
-                adapter.submitList(s.forecast)
-            }
+        binding.bind(state as WeatherDetailUiState) { forecast ->
+            adapter.submitList(forecast)
         }
     }
 
@@ -132,6 +96,62 @@ class WeatherDetailFragment : BaseFragment(R.layout.activity_weather_detail) {
             is WeatherDetailEffect.ShowToast ->
                 Toast.makeText(requireContext(), effect.message, Toast.LENGTH_SHORT).show()
         }
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// Binding 函数 —— 集中式 View 数据绑定
+//
+// 所有字段与 View 的映射集中在一处，等同于 XML DataBinding 表达式的能力，
+// 但保留 ViewBinding 的编译速度优势。内部使用 diffUpdate 做增量更新。
+// ═══════════════════════════════════════════════════════════════════════════════
+
+private fun ActivityWeatherDetailBinding.bind(
+    state: WeatherDetailUiState,
+    submitForecast: (List<ForecastDayDomain>) -> Unit,
+) {
+    when (state) {
+        is WeatherDetailUiState.Loading -> {
+            progressBar.visibility = View.VISIBLE
+            errorView.visibility = View.GONE
+            contentView.visibility = View.GONE
+        }
+        is WeatherDetailUiState.Error -> {
+            progressBar.visibility = View.GONE
+            contentView.visibility = View.GONE
+            errorView.visibility = View.VISIBLE
+            tvError.diffUpdate(state.message) { text = it }
+        }
+        is WeatherDetailUiState.Success -> {
+            progressBar.visibility = View.GONE
+            errorView.visibility = View.GONE
+            contentView.visibility = View.VISIBLE
+            bindCurrentWeather(state.currentWeather)
+            submitForecast(state.forecast)
+        }
+    }
+}
+
+private fun ActivityWeatherDetailBinding.bindCurrentWeather(w: CurrentWeatherDomain) {
+    // 天气概要
+    tvWeatherIcon.diffUpdate(w.condition.icon) { text = it }
+    tvTemperature.diffUpdate(w.temperature) { text = "${it}°" }
+    tvCondition.diffUpdate(w.condition.label) { text = it }
+    tvHighLow.diffUpdate("↑${w.highTemp}° / ↓${w.lowTemp}°") { text = it }
+
+    // 详细指标
+    tvFeelsLike.diffUpdate(w.feelsLike) { text = "${it}°" }
+    tvHumidity.diffUpdate(w.humidity) { text = "$it%" }
+    tvWind.diffUpdate(w.windSpeed) { text = "${it}km/h ${w.windDirection}" }
+    tvVisibility.diffUpdate(w.visibility) { text = "${it}km" }
+    tvUvIndex.diffUpdate(w.uvIndex) { text = "$it" }
+    tvPressure.diffUpdate(w.pressure) { text = "${it}hPa" }
+    tvSunrise.diffUpdate(w.sunrise) { text = "日出 ${it}" }
+    tvSunset.diffUpdate(w.sunset) { text = "日落 ${it}" }
+
+    // 空气质量
+    tvAirQuality.diffUpdate(w.airQuality) {
+        text = "AQI $it · ${w.airQualityLabel}"
     }
 }
 

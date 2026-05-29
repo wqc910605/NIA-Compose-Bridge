@@ -6,6 +6,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.empty.android.app.R
 import com.empty.android.app.databinding.FragmentWeatherCitiesBinding
+import com.empty.android.app.weather.CityInfo
 import com.empty.android.app.weather.WeatherUiState
 import com.empty.android.app.weather.WeatherViewModel
 import com.empty.android.app.weather.binding.adapter.CityAdapter
@@ -70,27 +71,40 @@ class WeatherCitiesFragment : BaseFragment(R.layout.fragment_weather_cities) {
     }
 
     override fun render(state: UiState) {
-        when (val s = state) {
-            is WeatherUiState.Loading -> {
-                binding.progressBar.visibility = View.VISIBLE
-                binding.errorView.visibility = View.GONE
-                binding.rvCities.visibility = View.GONE
-                binding.addCityLayout.visibility = View.GONE
-            }
-            is WeatherUiState.Error -> {
-                binding.progressBar.visibility = View.GONE
-                binding.rvCities.visibility = View.GONE
-                binding.addCityLayout.visibility = View.GONE
-                binding.errorView.visibility = View.VISIBLE
-                binding.tvError.text = s.message
-            }
-            is WeatherUiState.Success -> {
-                binding.progressBar.visibility = View.GONE
-                binding.errorView.visibility = View.GONE
-                binding.rvCities.visibility = View.VISIBLE
-                binding.addCityLayout.visibility = View.VISIBLE
-                adapter.submitList(s.data.cities)
-            }
+        binding.bind(state as WeatherUiState) { cities ->
+            adapter.submitList(cities)
+        }
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// Binding 函数 —— 集中式 View 数据绑定
+// ═══════════════════════════════════════════════════════════════════════════════
+
+private fun FragmentWeatherCitiesBinding.bind(
+    state: WeatherUiState,
+    submitCities: (List<CityInfo>) -> Unit,
+) {
+    when (state) {
+        is WeatherUiState.Loading -> {
+            progressBar.visibility = View.VISIBLE
+            errorView.visibility = View.GONE
+            rvCities.visibility = View.GONE
+            addCityLayout.visibility = View.GONE
+        }
+        is WeatherUiState.Error -> {
+            progressBar.visibility = View.GONE
+            rvCities.visibility = View.GONE
+            addCityLayout.visibility = View.GONE
+            errorView.visibility = View.VISIBLE
+            tvError.text = state.message
+        }
+        is WeatherUiState.Success -> {
+            progressBar.visibility = View.GONE
+            errorView.visibility = View.GONE
+            rvCities.visibility = View.VISIBLE
+            addCityLayout.visibility = View.VISIBLE
+            submitCities(state.data.cities)
         }
     }
 }

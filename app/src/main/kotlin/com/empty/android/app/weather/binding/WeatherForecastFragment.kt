@@ -5,6 +5,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.empty.android.app.R
 import com.empty.android.app.databinding.FragmentWeatherForecastBinding
+import com.empty.android.app.weather.ForecastDay
 import com.empty.android.app.weather.WeatherUiState
 import com.empty.android.app.weather.WeatherViewModel
 import com.empty.android.app.weather.binding.adapter.ForecastAdapter
@@ -46,24 +47,37 @@ class WeatherForecastFragment : BaseFragment(R.layout.fragment_weather_forecast)
     }
 
     override fun render(state: UiState) {
-        when (val s = state) {
-            is WeatherUiState.Loading -> {
-                binding.progressBar.visibility = View.VISIBLE
-                binding.errorView.visibility = View.GONE
-                binding.rvForecast.visibility = View.GONE
-            }
-            is WeatherUiState.Error -> {
-                binding.progressBar.visibility = View.GONE
-                binding.rvForecast.visibility = View.GONE
-                binding.errorView.visibility = View.VISIBLE
-                binding.tvError.text = s.message
-            }
-            is WeatherUiState.Success -> {
-                binding.progressBar.visibility = View.GONE
-                binding.errorView.visibility = View.GONE
-                binding.rvForecast.visibility = View.VISIBLE
-                adapter.submitList(s.data.forecast)
-            }
+        binding.bind(state as WeatherUiState) { forecast ->
+            adapter.submitList(forecast)
+        }
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// Binding 函数 —— 集中式 View 数据绑定
+// ═══════════════════════════════════════════════════════════════════════════════
+
+private fun FragmentWeatherForecastBinding.bind(
+    state: WeatherUiState,
+    submitForecast: (List<ForecastDay>) -> Unit,
+) {
+    when (state) {
+        is WeatherUiState.Loading -> {
+            progressBar.visibility = View.VISIBLE
+            errorView.visibility = View.GONE
+            rvForecast.visibility = View.GONE
+        }
+        is WeatherUiState.Error -> {
+            progressBar.visibility = View.GONE
+            rvForecast.visibility = View.GONE
+            errorView.visibility = View.VISIBLE
+            tvError.text = state.message
+        }
+        is WeatherUiState.Success -> {
+            progressBar.visibility = View.GONE
+            errorView.visibility = View.GONE
+            rvForecast.visibility = View.VISIBLE
+            submitForecast(state.data.forecast)
         }
     }
 }
