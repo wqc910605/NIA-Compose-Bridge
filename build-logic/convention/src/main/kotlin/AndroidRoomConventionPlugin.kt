@@ -1,4 +1,4 @@
-import com.empty.android.convention.libs
+import com.nia.compose.bridge.convention.libs
 import com.google.devtools.ksp.gradle.KspExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project

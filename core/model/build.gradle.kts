@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.emptyandroid.jvm.library)
+    alias(libs.plugins.nia.compose.bridge.jvm.library)
     alias(libs.plugins.kotlin.serialization)
 }
 

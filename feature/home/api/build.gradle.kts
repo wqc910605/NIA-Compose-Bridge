@@ -1,7 +1,7 @@
 plugins {
-    alias(libs.plugins.emptyandroid.android.feature.api)
+    alias(libs.plugins.nia.compose.bridge.feature.api)
 }
 
 android {
-    namespace = "com.empty.android.feature.home.api"
+    namespace = "com.nia.compose.bridge.feature.home.api"
 }

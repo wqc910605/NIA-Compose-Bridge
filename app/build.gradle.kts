@@ -1,15 +1,15 @@
 plugins {
-    alias(libs.plugins.emptyandroid.android.application)
-    alias(libs.plugins.emptyandroid.android.application.compose)
-    alias(libs.plugins.emptyandroid.android.hilt)
+    alias(libs.plugins.nia.compose.bridge.application)
+    alias(libs.plugins.nia.compose.bridge.application.compose)
+    alias(libs.plugins.nia.compose.bridge.hilt)
     alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "com.empty.android.app"
+    namespace = "com.nia.compose.bridge"
 
     defaultConfig {
-        applicationId = "com.empty.android.app"
+        applicationId = "com.nia.compose.bridge"
         versionCode = 1
         versionName = "1.0.0"
         targetSdk = 36
@@ -36,19 +36,18 @@ android {
 }
 
 dependencies {
+    // core:common + core:viewbinding 框架（ViewModel + ViewBinding）
     implementation(projects.core.common)
+    implementation(projects.core.viewbinding)
+
     implementation(projects.core.designsystem)
-    implementation(projects.core.ui)
+//    implementation(projects.core.ui)
     implementation(projects.core.data)
     implementation(projects.core.model)
     implementation(projects.core.domain)
     implementation(projects.core.datastore)
     implementation(projects.core.database)
     implementation(projects.core.network)
-
-    // core:base + core:viewbinding 框架（ViewModel + ViewBinding）
-    implementation(projects.core.base)
-    implementation(projects.core.viewbinding)
 
     // Feature impl 模块（真正的 UI + ViewModel）
     implementation(projects.feature.home.impl)

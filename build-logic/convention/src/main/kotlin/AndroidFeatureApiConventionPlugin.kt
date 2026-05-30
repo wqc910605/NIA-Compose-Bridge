@@ -1,4 +1,4 @@
-import com.empty.android.convention.libs
+import com.nia.compose.bridge.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -17,7 +17,7 @@ class AndroidFeatureApiConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply("emptyandroid.android.library")
+                apply("nia.compose.bridge.library")
                 apply("org.jetbrains.kotlin.plugin.serialization")
             }
 

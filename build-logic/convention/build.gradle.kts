@@ -2,7 +2,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "com.empty.android.buildlogic"
+group = "com.nia.compose.bridge.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -25,39 +25,39 @@ dependencies {
 gradlePlugin {
     plugins {
         register("androidApplication") {
-            id = "emptyandroid.android.application"
+            id = "nia.compose.bridge.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
         register("androidApplicationCompose") {
-            id = "emptyandroid.android.application.compose"
+            id = "nia.compose.bridge.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
         register("androidLibrary") {
-            id = "emptyandroid.android.library"
+            id = "nia.compose.bridge.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
         register("androidLibraryCompose") {
-            id = "emptyandroid.android.library.compose"
+            id = "nia.compose.bridge.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
         register("androidFeatureApi") {
-            id = "emptyandroid.android.feature.api"
+            id = "nia.compose.bridge.feature.api"
             implementationClass = "AndroidFeatureApiConventionPlugin"
         }
         register("androidFeatureImpl") {
-            id = "emptyandroid.android.feature.impl"
+            id = "nia.compose.bridge.feature.impl"
             implementationClass = "AndroidFeatureImplConventionPlugin"
         }
         register("androidHilt") {
-            id = "emptyandroid.android.hilt"
+            id = "nia.compose.bridge.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
         }
         register("androidRoom") {
-            id = "emptyandroid.android.room"
+            id = "nia.compose.bridge.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
         register("jvmLibrary") {
-            id = "emptyandroid.jvm.library"
+            id = "nia.compose.bridge.jvm.library"
             implementationClass = "JvmLibraryConventionPlugin"
         }
     }

@@ -1,13 +1,17 @@
 plugins {
-    alias(libs.plugins.emptyandroid.android.feature.impl)
+    alias(libs.plugins.nia.compose.bridge.feature.impl)
 }
 
 android {
-    namespace = "com.empty.android.feature.home.impl"
+    namespace = "com.nia.compose.bridge.feature.home.impl"
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
 }
 
 dependencies {
     implementation(projects.feature.home.api)
-    // 示例：impl 需要跨 feature 跳转时，依赖目标 feature 的 api（而不是 impl）
     implementation(projects.feature.settings.api)
+    implementation(projects.core.viewbinding)
 }

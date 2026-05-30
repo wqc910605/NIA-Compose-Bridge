@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".EmptyAndroidApplication"
+        android:name=".NIAComposeBridgeApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -28,13 +28,13 @@
 <!--        <activity-->
 <!--            android:name=".weather.binding.WeatherBindingActivity"-->
 <!--            android:exported="false"-->
-<!--            android:theme="@style/Theme.EmptyAndroid" />-->
+<!--            android:theme="@style/Theme.NIAComposeBridge" />-->
 
         <!-- Weather Demo：Compose 版（完全相同的功能，只换 UI 层） -->
         <activity
             android:name=".weather.compose.WeatherComposeActivity"
             android:exported="false"
-            android:theme="@style/Theme.EmptyAndroid" />
+            android:theme="@style/Theme.NIAComposeBridge" />
 
         <!-- Weather Detail：已改为 Fragment destination，
              由 weather_nav_graph.xml 的 Navigation Component 管理，
@@ -44,7 +44,7 @@
         <activity
             android:name=".demo.MultiTypeDemoActivity"
             android:exported="false"
-            android:theme="@style/Theme.EmptyAndroid" />
+            android:theme="@style/Theme.NIAComposeBridge" />
     </application>
 
 </manifest>

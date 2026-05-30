@@ -33,7 +33,7 @@ NIA-Compose-Bridge/
 │   └── src/main/kotlin/.../
 │       ├── MainActivity.kt                 # Compose 入口（App 级主题 + 导航）
 │       ├── navigation/AppNavHost.kt        # Navigation Compose 导航图
-│       ├── EmptyAndroidApplication.kt      # @HiltAndroidApp
+│       ├── NIAComposeBridgeApplication.kt      # @HiltAndroidApp
 │       └── demo/
 │           ├── ProductCatalogActivity.kt   # ViewBinding Demo
 │           ├── ProductCatalogUiState.kt    # UiState / UiEffect 定义
@@ -179,13 +179,13 @@ NIA-Compose-Bridge/
 - **Compose 路径**：`ViewModel.uiState` → `collectAsStateWithLifecycle()` → `when(state)` 渲染
 - **ViewBinding 路径**：`BaseActivity/BaseFragment` 自动订阅 `uiState` → `render(state)` → `when(state)` + `diffUpdate`
 
-**两者共享同一套 Core 模块**（`core:base`、`core:data`、`core:model` 等），ViewModel 写法完全相同，UI 层各自由不同的基类衔接。
+**两者共享同一套 Core 模块**（`core:common`、`core:data`、`core:model` 等），ViewModel 写法完全相同，UI 层各自由不同的基类衔接。
 
 ---
 
 ### ViewModel 架构
 
-#### 1. BaseViewModel（`core:base`）
+#### 1. BaseViewModel（`core:common`）
 
 ```kotlin
 abstract class BaseViewModel<S : UiState>(initialState: S) : ViewModel() {
@@ -359,7 +359,7 @@ class ProductAdapter(...) : BaseMultiAdapter<ProductDisplayItem>(...) {
                 │
      ┌──────────┴──────────┐
      ▼                     ▼
-   :core:ui        :core:domain
+         :core:domain
    :core:designsystem     ...
                 │
                 ▼
@@ -378,8 +378,8 @@ class ProductAdapter(...) : BaseMultiAdapter<ProductDisplayItem>(...) {
 **依赖规则：**
 - `:core:model` → 无依赖（纯 JVM, 仅依赖 `kotlinx-serialization-json`）
 - `:core:common` → 仅依赖 Android + Coroutines
-- `:core:viewbinding` → 仅依赖 `:core:base`（不依赖 feature/data 模块）
-- `:core:base` → 仅依赖 AndroidX ViewModel + Coroutines
+- `:core:viewbinding` → 仅依赖 `:core:common`（不依赖 feature/data 模块）
+- `:core:common` → 仅依赖 AndroidX ViewModel + Coroutines
 - feature `:impl` → 依赖 feature `:api` + core 各模块
 - `:app` → 依赖所有 feature `:impl` 模块
 
@@ -391,15 +391,15 @@ class ProductAdapter(...) : BaseMultiAdapter<ProductDisplayItem>(...) {
 
 | 插件 ID | 作用 |
 |---------|------|
-| `emptyandroid.android.application` | Application 模块基础配置（compileSdk=36, minSdk=24, targetSdk=36） |
-| `emptyandroid.android.application.compose` | Application 模块启用 Compose |
-| `emptyandroid.android.library` | Library 模块基础配置（compileSdk=36, minSdk=24，无 targetSdk） |
-| `emptyandroid.android.library.compose` | Library 模块启用 Compose |
-| **`emptyandroid.android.feature.api`** | feature `api` 模块（只含路由 key，添加 Compose + Hilt + kotlinx-serialization） |
-| **`emptyandroid.android.feature.impl`** | feature `impl` 模块（Compose + Hilt + Navigation + core 全系依赖） |
-| `emptyandroid.android.hilt` | 添加 Hilt 依赖和 KSP |
-| `emptyandroid.android.room` | 添加 Room 依赖和 KSP |
-| `emptyandroid.jvm.library` | 纯 JVM library（移除 Android，仅 Kotlin + kotlinx-serialization） |
+| `nia.compose.bridge.application` | Application 模块基础配置（compileSdk=36, minSdk=24, targetSdk=36） |
+| `nia.compose.bridge.application.compose` | Application 模块启用 Compose |
+| `nia.compose.bridge.library` | Library 模块基础配置（compileSdk=36, minSdk=24，无 targetSdk） |
+| `nia.compose.bridge.library.compose` | Library 模块启用 Compose |
+| **`nia.compose.bridge.feature.api`** | feature `api` 模块（只含路由 key，添加 Compose + Hilt + kotlinx-serialization） |
+| **`nia.compose.bridge.feature.impl`** | feature `impl` 模块（Compose + Hilt + Navigation + core 全系依赖） |
+| `nia.compose.bridge.hilt` | 添加 Hilt 依赖和 KSP |
+| `nia.compose.bridge.room` | 添加 Room 依赖和 KSP |
+| `nia.compose.bridge.jvm.library` | 纯 JVM library（移除 Android，仅 Kotlin + kotlinx-serialization） |
 
 ---
 
@@ -447,10 +447,10 @@ class ProductAdapter(...) : BaseMultiAdapter<ProductDisplayItem>(...) {
 3. `feature/yourfeature/api/build.gradle.kts`：
    ```kotlin
    plugins {
-       alias(libs.plugins.emptyandroid.android.feature.api)
+       alias(libs.plugins.nia.compose.bridge.feature.api)
    }
    android {
-       namespace = "com.empty.android.feature.yourfeature.api"
+       namespace = "com.nia.compose.bridge.feature.yourfeature.api"
    }
    ```
 
@@ -466,10 +466,10 @@ class ProductAdapter(...) : BaseMultiAdapter<ProductDisplayItem>(...) {
 5. `feature/yourfeature/impl/build.gradle.kts`：
    ```kotlin
    plugins {
-       alias(libs.plugins.emptyandroid.android.feature.impl)
+       alias(libs.plugins.nia.compose.bridge.feature.impl)
    }
    android {
-       namespace = "com.empty.android.feature.yourfeature.impl"
+       namespace = "com.nia.compose.bridge.feature.yourfeature.impl"
    }
    dependencies {
        implementation(projects.feature.yourfeature.api)

@@ -1,11 +1,11 @@
 plugins {
-    alias(libs.plugins.emptyandroid.android.library)
-    alias(libs.plugins.emptyandroid.android.hilt)
-    alias(libs.plugins.emptyandroid.android.room)
+    alias(libs.plugins.nia.compose.bridge.library)
+    alias(libs.plugins.nia.compose.bridge.hilt)
+    alias(libs.plugins.nia.compose.bridge.room)
 }
 
 android {
-    namespace = "com.empty.android.core.database"
+    namespace = "com.nia.compose.bridge.core.database"
 }
 
 dependencies {

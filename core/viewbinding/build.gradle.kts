@@ -1,16 +1,16 @@
 plugins {
-    alias(libs.plugins.emptyandroid.android.library)
+    alias(libs.plugins.nia.compose.bridge.library)
 }
 
 android {
-    namespace = "com.empty.android.core.viewbinding"
+    namespace = "com.nia.compose.bridge.core.viewbinding"
     buildFeatures {
         viewBinding = true
     }
 }
 
 dependencies {
-    implementation(project(":core:base"))
+    implementation(project(":core:common"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.recyclerview)

@@ -57,6 +57,7 @@ material = "1.12.0"
 preferenceKtx = "1.2.0"
 msal = "6.+"
 swiperefreshlayout = "1.2.0"
+coordinatorLayout = "1.3.0"
 
 
 [libraries]
@@ -67,6 +68,7 @@ androidx-material3 = { module = "com.google.android.material:material", version.
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 androidx-startup-runtime = { group = "androidx.startup", name = "startup-runtime", version.ref = "androidxStartup" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxSplashscreen" }
+androidx-coordinatorlayout = { group = "androidx.coordinatorlayout", name = "coordinatorlayout", version.ref = "coordinatorLayout" }
 
 # Lifecycle
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
@@ -170,12 +172,12 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 # Convention plugins from build-logic
-emptyandroid-android-application = { id = "emptyandroid.android.application", version = "unspecified" }
-emptyandroid-android-application-compose = { id = "emptyandroid.android.application.compose", version = "unspecified" }
-emptyandroid-android-library = { id = "emptyandroid.android.library", version = "unspecified" }
-emptyandroid-android-library-compose = { id = "emptyandroid.android.library.compose", version = "unspecified" }
-emptyandroid-android-feature-api = { id = "emptyandroid.android.feature.api", version = "unspecified" }
-emptyandroid-android-feature-impl = { id = "emptyandroid.android.feature.impl", version = "unspecified" }
-emptyandroid-android-hilt = { id = "emptyandroid.android.hilt", version = "unspecified" }
-emptyandroid-android-room = { id = "emptyandroid.android.room", version = "unspecified" }
-emptyandroid-jvm-library = { id = "emptyandroid.jvm.library", version = "unspecified" }
+nia-compose-bridge-application = { id = "nia.compose.bridge.application", version = "unspecified" }
+nia-compose-bridge-application-compose = { id = "nia.compose.bridge.application.compose", version = "unspecified" }
+nia-compose-bridge-library = { id = "nia.compose.bridge.library", version = "unspecified" }
+nia-compose-bridge-library-compose = { id = "nia.compose.bridge.library.compose", version = "unspecified" }
+nia-compose-bridge-feature-api = { id = "nia.compose.bridge.feature.api", version = "unspecified" }
+nia-compose-bridge-feature-impl = { id = "nia.compose.bridge.feature.impl", version = "unspecified" }
+nia-compose-bridge-hilt = { id = "nia.compose.bridge.hilt", version = "unspecified" }
+nia-compose-bridge-room = { id = "nia.compose.bridge.room", version = "unspecified" }
+nia-compose-bridge-jvm-library = { id = "nia.compose.bridge.jvm.library", version = "unspecified" }

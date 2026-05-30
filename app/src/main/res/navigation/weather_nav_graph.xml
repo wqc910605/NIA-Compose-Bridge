@@ -10,23 +10,23 @@
     -->
     <fragment
         android:id="@+id/nav_today"
-        android:name="com.empty.android.app.weather.binding.WeatherTodayFragment"
+        android:name="com.nia.compose.bridge.weather.binding.WeatherTodayFragment"
         android:label="今日天气" />
 
     <fragment
         android:id="@+id/nav_forecast"
-        android:name="com.empty.android.app.weather.binding.WeatherForecastFragment"
+        android:name="com.nia.compose.bridge.weather.binding.WeatherForecastFragment"
         android:label="未来预报" />
 
     <fragment
         android:id="@+id/nav_cities"
-        android:name="com.empty.android.app.weather.binding.WeatherCitiesFragment"
+        android:name="com.nia.compose.bridge.weather.binding.WeatherCitiesFragment"
         android:label="城市管理" />
 
     <!-- 天气详情页 —— Fragment destination，接收 cityName + date 参数 -->
     <fragment
         android:id="@+id/nav_weather_detail"
-        android:name="com.empty.android.feature.weather.impl.viewbinding.WeatherDetailFragment"
+        android:name="com.nia.compose.bridge.weather.impl.viewbinding.WeatherDetailFragment"
         android:label="天气详情">
         <argument
             android:name="cityName"

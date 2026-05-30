@@ -1,7 +1,7 @@
 plugins {
-    alias(libs.plugins.emptyandroid.android.feature.api)
+    alias(libs.plugins.nia.compose.bridge.feature.api)
 }
 
 android {
-    namespace = "com.empty.android.feature.weather.api"
+    namespace = "com.nia.compose.bridge.weather.api"
 }

@@ -1,4 +1,4 @@
-import com.empty.android.convention.libs
+import com.nia.compose.bridge.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies

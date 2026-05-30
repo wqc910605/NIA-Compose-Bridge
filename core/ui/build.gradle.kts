@@ -1,10 +1,10 @@
 plugins {
-    alias(libs.plugins.emptyandroid.android.library)
-    alias(libs.plugins.emptyandroid.android.library.compose)
+    alias(libs.plugins.nia.compose.bridge.library)
+    alias(libs.plugins.nia.compose.bridge.library.compose)
 }
 
 android {
-    namespace = "com.empty.android.core.ui"
+    namespace = "com.nia.compose.bridge.core.ui"
 }
 
 dependencies {

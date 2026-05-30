@@ -1,4 +1,4 @@
-import com.empty.android.convention.libs
+import com.nia.compose.bridge.convention.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.dependencies
  * feature:*:impl 模块的 convention plugin。
  *
  * 职责：承载 Screen / ViewModel / Hilt DI / 导航注册函数（[androidx.navigation.NavGraphBuilder] 扩展）。
- * 预置依赖：Compose + Hilt + Navigation + kotlinx.serialization + 核心 core 层 + core:base。
+ * 预置依赖：Compose + Hilt + Navigation + kotlinx.serialization + 核心 core 层 + core:common。
  *
  * 跨 feature 跳转：`impl` 只通过依赖目标 feature 的 `:api` 来获取路由 key，不能反向依赖其他 `impl`。
  */
@@ -15,20 +15,20 @@ class AndroidFeatureImplConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply("emptyandroid.android.library")
-                apply("emptyandroid.android.library.compose")
-                apply("emptyandroid.android.hilt")
+                apply("nia.compose.bridge.library")
+                apply("nia.compose.bridge.library.compose")
+                apply("nia.compose.bridge.hilt")
                 apply("org.jetbrains.kotlin.plugin.serialization")
             }
 
             dependencies {
-                add("implementation", project(":core:ui"))
+//                add("implementation", project(":core:ui"))
                 add("implementation", project(":core:designsystem"))
                 add("implementation", project(":core:common"))
                 add("implementation", project(":core:model"))
                 add("implementation", project(":core:data"))
                 add("implementation", project(":core:domain"))
-                add("implementation", project(":core:base"))
+                add("implementation", project(":core:common"))
 
                 // hilt-navigation-compose 1.0+ 已合并 viewmodel 集成，不再需要单独的
                 // hilt-lifecycle-viewmodel-compose（该 artifact 已废弃/不存在）
